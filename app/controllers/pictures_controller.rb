@@ -2,43 +2,42 @@ class PicturesController < ApplicationController
   before_action :set_picture, only: %i[ show edit update destroy ]
   before_action :login_required
 
-  # GET /pictures or /pictures.json
   def index
     @pictures = Picture.all
   end
 
-  # GET /pictures/1 or /pictures/1.json
   def show
   end
 
-  # GET /pictures/new
   def new
     @picture = Picture.new
   end
 
-  # GET /pictures/1/edit
   def edit
   end
 
-  # POST /pictures or /pictures.json
   def create
-    # @picture = Picture.new(picture_params)
-    # @picture.user_id = current_user.id
-
     @picture = current_user.pictures.build(picture_params)
 
-    respond_to do |format|
+    # binding.irb
+
+    if params[:back]
+      render :new
+    else
       if @picture.save
-        format.html { redirect_to picture_url(@picture), notice: "Picture was successfully created." }
-        format.json { render :show, status: :created, location: @picture }
+        redirect_to pictures_path, notice: "投稿しました！"
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @picture.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
 
-  # PATCH/PUT /pictures/1 or /pictures/1.json
+  def confirm
+    @picture = current_user.pictures.build(picture_params)
+    # binding.irb
+    render :new if @picture.invalid?
+  end
+
   def update
     respond_to do |format|
       if @picture.update(picture_params)
@@ -51,7 +50,6 @@ class PicturesController < ApplicationController
     end
   end
 
-  # DELETE /pictures/1 or /pictures/1.json
   def destroy
     @picture.destroy
 
@@ -62,12 +60,10 @@ class PicturesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_picture
       @picture = Picture.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def picture_params
       params.require(:picture).permit(:content, :user_id, :image, :image_cache)
     end
