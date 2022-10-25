@@ -19,8 +19,6 @@ class PicturesController < ApplicationController
   def create
     @picture = current_user.pictures.build(picture_params)
 
-    # binding.irb
-
     if params[:back]
       render :new
     else
@@ -34,7 +32,6 @@ class PicturesController < ApplicationController
 
   def confirm
     @picture = current_user.pictures.build(picture_params)
-    # binding.irb
     render :new if @picture.invalid?
   end
 

@@ -1,11 +1,11 @@
 <%= form_with(model: @picture, local: true ,url: choose_new_or_edit ) do |form| %>
   <% if picture.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(picture.errors.count, "error") %> prohibited this picture from being saved:</h2>
+      <h2><%= @picture.errors.count %>件のエラーがあります。</h2>
 
       <ul>
-        <% picture.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+      <% @picture.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
         <% end %>
       </ul>
     </div>
@@ -15,6 +15,9 @@
     <%= form.label :content %>
     <%= form.text_area :content %>
   </div>
+
+        <%= image_tag picture.image.url if picture.image.present? %>
+
 
   <div class="field">
     <%= form.label :image %>
