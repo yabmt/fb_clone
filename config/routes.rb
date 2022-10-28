@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/', to: 'sessions#new'
   resources :pictures do
     collection do
       post :confirm
