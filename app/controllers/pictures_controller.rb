@@ -57,15 +57,15 @@ class PicturesController < ApplicationController
   end
 
   private
-    def set_picture
-      @picture = Picture.find(params[:id])
-    end
+  def set_picture
+    @picture = Picture.find(params[:id])
+  end
 
-    def picture_params
-      params.require(:picture).permit(:content, :user_id, :image, :image_cache)
-    end
+  def picture_params
+    params.require(:picture).permit(:content, :user_id, :image, :image_cache)
+  end
 
-    def login_required
-      redirect_to new_session_path unless current_user
-    end
+  def login_required
+    redirect_to new_session_path unless current_user
+  end
 end
